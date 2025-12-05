@@ -1,4 +1,4 @@
-public class Viagens {
+public class Travel {
     String driver;
     String client;
     String vehicle;

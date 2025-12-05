@@ -1,4 +1,4 @@
-public class Viaturas {
+public class Vehicle {
     String licensePlate;
     String brand;
     String model;

@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class Reservas {
+public class Reservation {
     String clients;
     Date startDateTime;
     String originAddress;

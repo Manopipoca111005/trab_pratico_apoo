@@ -1,4 +1,4 @@
-public class Condutores {
+public class Drivers {
     String name;
     int NIC;
     int driverLicenseNumber;
