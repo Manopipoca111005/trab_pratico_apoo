@@ -1,4 +1,4 @@
-public class Driver implements Promptable {
+public class Driver{
     private String name; // Nome
     private int NIC; // Número de Identificação Civil
     private String driverLicenseNumber;
@@ -7,8 +7,7 @@ public class Driver implements Promptable {
     private String tlm;
     private String address;
 
-    @Override
-    public String[] prompts(){
+    public static String[] prompts(){
         return new String[] {
                 "Digite o nome do condutor: ",
                 "Digite o número de identificação do condutor: ",

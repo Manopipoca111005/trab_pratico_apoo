@@ -1,8 +1,16 @@
-public class Vehicle {
+public class Vehicle{
     private String licensePlate;
     private String  brand;
     private String model;
     private int productionYear;
+    public static String[] prompts(){
+        return new String[] {
+                "Digite a matricula da viatura: ",
+                "Digite a marca da viatura: ",
+                "Digite o modelo da viatura: ",
+                "Digite o ano de fabrico da viatura: ",
+        };
+    }
 
     Vehicle(String driverLicenseNumber, String brand, String model,int productionYear) {
         this.licensePlate = licensePlate;

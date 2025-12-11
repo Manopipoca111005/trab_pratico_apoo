@@ -1,11 +1,9 @@
-public class Client implements Promptable {
+public class Client{
     private String name;
     private int nif;
     private String tlm;
     private String address;
-
-    @Override
-    public String[] prompts(){
+    public static String[] prompts(){
         return new String[]{
             "Digite o nome do cliente: ",
             "Digite o número de identificação fiscal do cliente: ",

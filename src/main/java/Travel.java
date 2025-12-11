@@ -1,17 +1,28 @@
 import java.time.LocalDateTime;
 
 public class Travel {
-    private String driver;
-    private String client;
-    private String vehicle;
+    private Driver driver;
+    private Client client;
+    private Vehicle vehicle;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private String originAddress;
     private String destinationAddress;
     private double kms;
     private double tripCost;
+    public static String[] prompts(){
+        return new String[] {
+                "Digite o número de identificação fiscal do condutor: ",
+                "Digite o número de identificação fiscal do cliente: ",
+                "Digite o número da matricula: ",
+                "Digite a data/hora inicial: ",
+                "Digite o endereço de origem: ",
+                "Digite o endereço de destino: ",
+                "Digite os quilómetros(kms) pecorridos"
+        };
+    }
 
-    Travel(String driver, String client, String vehicle, LocalDateTime startDateTime, LocalDateTime endDateTime, String originAddress, String destinationAddress, double kms, double tripCost) {
+    Travel(Driver driver, Client client, Vehicle vehicle, LocalDateTime startDateTime, LocalDateTime endDateTime, String originAddress, String destinationAddress, double kms, double tripCost) {
         this.driver = driver;
         this.client = client;
         this.startDateTime = startDateTime;
@@ -23,13 +34,13 @@ public class Travel {
         this.tripCost = tripCost;
     }
 
-    public String getDriver() {
+    public Driver getDriver() {
         return driver;
     }
-    public String getClient() {
+    public Client getClient() {
         return client;
     }
-    public String getVehicle() {
+    public Vehicle getVehicle() {
         return vehicle;
     }
     public String getOriginAddress() {
@@ -44,13 +55,13 @@ public class Travel {
     public double getTripCost() {
         return tripCost;
     }
-    public void setDriver(String driver) {
+    public void setDriver(Driver driver) {
         this.driver = driver;
     }
-    public void setClient(String client) {
+    public void setClient(Client client) {
         this.client = client;
     }
-    public void setVehicle(String vehicle) {
+    public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
     public void setOriginAddress(String originAddress) {

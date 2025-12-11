@@ -1,1 +1,19 @@
 362427399; 05/12/2025 15:19; Rua Rei Lavrador 118, 7570-649, Moinho Do Vau, Setúbal; Rua Florindo Calhelha 44, Padroso, Vila Real, 5470-350; 120.10
+🚖 Menu Principal do Sistema TVDE
+Gestão de Condutores (CRUD)
+
+Gestão de Viaturas (CRUD)
+
+Gestão de Clientes (CRUD)
+
+Gestão de Reservas (CRUD, Inserir/Remover)
+
+Gestão de Viagens (CRUD, Inserir/Remover)
+
+Criação de Viagem a partir de Reserva
+
+Pesquisas e Estatísticas
+
+Gestão de Ficheiros e Empresas (Gravar/Ler Dados)
+
+Sair

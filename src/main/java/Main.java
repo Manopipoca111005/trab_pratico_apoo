@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Function;
+import java.lang.reflect.*;
 
 public class Main {
     public static String fileName;
@@ -15,9 +16,35 @@ public class Main {
     public static ArrayList<Client> clients = new ArrayList<>();
     public static ArrayList<Reservation> reservations = new ArrayList<>();
     public static ArrayList<Travel> travels = new ArrayList<>();
-    public String[] line;
+    public static String[] line;
     public static ArrayList<String> attributeValues;
-    static void main(String[] args){
+
+    public static void Header(){
+        System.out.println("=========================================");
+        System.out.println("       🚗 SISTEMA DE GESTÃO TVDE 📊       ");
+        System.out.println("=========================================");
+
+    }
+
+    public static void MainMenu(){
+    System.out.println("------------------------------------------");
+        System.out.println("         💻 Menu Principal Sistema TVDE    ");
+        System.out.println("------------------------------------------");
+        System.out.println("1. 👤 Gestão de Condutores (CRUD)");
+        System.out.println("2. 🚗 Gestão de Viaturas (CRUD)");
+        System.out.println("3. 👥 Gestão de Clientes (CRUD)");
+        System.out.println("4. 📅 Gestão de Reservas (CRUD, Inserir/Remover)");
+        System.out.println("5. 🗺️ Gestão de Viagens (CRUD, Inserir/Remover)");
+        System.out.println("6. ➡️ Criar Viagem a partir de Reserva");
+        System.out.println("7. 📊 Pesquisas e Estatísticas");
+        System.out.println("8. 📁 Gestão de Ficheiros e Dados (Gravar/Ler)");
+        System.out.println("0. ❌ Sair do Sistema");
+        System.out.println("------------------------------------------");
+        System.out.print("Selecione uma opção: ");
+    }
+
+
+    public static void main(String[] args){
 
         boolean isFirstUse = true;
 
@@ -27,7 +54,7 @@ public class Main {
             System.out.println("Para começarmos a trabalhar, escolha uma das opções abaixo:");
             System.out.println("-----------------------------------------");
             System.out.println("  [1] 📂 Ler dados de ficheiros existentes");
-            System.out.println("  [2] 📝 Iniciar um novo negócio (Criar ficheiros)");
+            System.out.println("  [2] 📝 Iniciar um novo negócio (Gravar dados)");
             System.out.println("-----------------------------------------");
             System.out.print("Opção desejada: ");
             int option = scanner.nextInt();
@@ -59,7 +86,7 @@ public class Main {
                     ), "clientes.txt");
 
                     reservations = readFiles(line -> new Reservation(
-                            findClientByNIF(line),
+                            findClientByNIF(line, "reservations.txt"),
                             LocalDateTime.parse(line[1], FORMATTER),
                             line[2],
                             line[3],
@@ -67,9 +94,9 @@ public class Main {
                     ), "reservations.txt");
 
                     travels = readFiles(line -> new Travel(
-                            line[0],
-                            line[1],
-                            line[2],
+                            findDriverByNIF(line),
+                            findClientByNIF(line,"travels.txt"),
+                            findVehiculeBylicensePlate(line),
                             LocalDateTime.parse(line[3], FORMATTER),
                             LocalDateTime.parse(line[4], FORMATTER),
                             line[5],
@@ -79,50 +106,59 @@ public class Main {
                     ), "travels.txt");
 
                 case 2:
-                    fileName = "drivers.txt";
-                    System.out.print("Insira o caminho do local onde deseja guardar o ficheiro " + fileName + ": " );
-                    filePath = scanner.nextLine();
-                    try (PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(filePath)))) {
-                        ArrayList<Driver> Newdrivers = new ArrayList<>();
-                        Driver newDriver = new Driver();
-                        System.out.println("Vamos criar primeiro o seu ficheiro " + fileName + ": ");
-                        System.out.println("Digite o nome do condutor: ");
-                        newDriver.setName(scanner.nextLine());
-                        System.out.println("Digite o número de identificação do condutor: ");
-                        newDriver.setNIC(scanner.nextInt());
-                        System.out.println("Digite o número da carta de condução do condutor");
-                        newDriver.setAddress(scanner.nextLine());
-                        System.out.println("Digite o número de segurança social do condutor: ");
-                        newDriver.setNiss(scanner.nextLong());
-                        System.out.println("Digite o número de telemóvel do condutor: ");
-                        newDriver.setTlm(scanner.nextLine());
-                        System.out.println("Digite a morada do condutor: ");
-                        newDriver.setAddress(scanner.nextLine());
+                    drivers = writeFiles(line -> new Driver(
+                            attributeValues.get(0),
+                            Integer.parseInt(attributeValues.get(1)),
+                            attributeValues.get(2),
+                            Long.parseLong(attributeValues.get(3)),
+                            Integer.parseInt(attributeValues.get(4)),
+                            attributeValues.get(5),
+                            attributeValues.get(6)
+                    ), "drivers.txt");
 
-                        printWriter.print(newDriver.getName());
-                        printWriter.print(";");
-                        printWriter.print(newDriver.getNIC());
+                    vehicles = writeFiles(line -> new Vehicle(
+                            attributeValues.get(0),
+                            attributeValues.get(1),
+                            attributeValues.get(2),
+                            Integer.parseInt(attributeValues.get(3))
+                    ), "vehicles.txt");
 
+                    clients = writeFiles(line -> new Client(
+                            attributeValues.get(0),
+                            Integer.parseInt(attributeValues.get(1)),
+                            attributeValues.get(2),
+                            attributeValues.get(3)
+                    ), "clientes.txt");
 
-                        System.out.println("Dados escritos com sucesso em " + fileName);
+                    reservations = writeFiles(line -> new Reservation(
+                            findClientByNIF(attributeValues.toArray(new String[10]), "reservations.txt"),
+                            LocalDateTime.parse(attributeValues.get(1), FORMATTER),
+                            attributeValues.get(2),
+                            attributeValues.get(3),
+                            Double.parseDouble(attributeValues.get(4))
+                    ), "reservations.txt");
 
-                    } catch (IOException e) {
-                        System.err.println("Ocorreu um erro de I/O: " + e.getMessage());
-                    }
+                    travels = writeFiles(line -> new Travel(
+                            findDriverByNIF(attributeValues.toArray(new String[10])),
+                            findClientByNIF(attributeValues.toArray(new String[10]),"travels.txt"),
+                            findVehiculeBylicensePlate(attributeValues.toArray(new String[10])),
+                            LocalDateTime.parse(attributeValues.get(3), FORMATTER),
+                            LocalDateTime.parse(attributeValues.get(4), FORMATTER),
+                            attributeValues.get(5),
+                            attributeValues.get(6),
+                            Double.parseDouble(attributeValues.get(7)),
+                            Double.parseDouble(attributeValues.get(8))
+                    ), "travels.txt");
+
             }
         }
         else{
             Header();
 
             System.out.println("\n👋 Bem-vindo/a de volta!");
-            System.out.println("Em que posso ajudar hoje? (Digite 'menu' para opções)");
-        }
-    }
-    static void Header(){
-        System.out.println("=========================================");
-        System.out.println("       🚗 SISTEMA DE GESTÃO TVDE 📊       ");
-        System.out.println("=========================================");
+            System.out.println("Em que posso ajudar hoje?");
 
+        }
     }
 
     //Ver no yt ou usando a IA o que é Function e como usar!
@@ -134,8 +170,8 @@ public class Main {
             String [] line;
             while (bufferedReader.ready()){
                 line = bufferedReader.readLine().split(";");
-                T newObject = lineMapper.apply(line);
-                list.add(newObject);
+                T newObjectReader = lineMapper.apply(line);
+                list.add(newObjectReader);
             }
             System.out.println("Dados lidos com sucesso!");
         }
@@ -148,13 +184,141 @@ public class Main {
         return list;
     }
 
-    static <T> ArrayList<T> writeFiles(Function<String[], T> lineMapper, String fileName){
+    static <T> ArrayList<T> writeFiles(Function<ArrayList<String>, T> lineMapper, String fileName){
         ArrayList<T> list = new ArrayList<>();
         System.out.print("Insira o caminho do ficheiro " + fileName + "onde deseja imprimir os dados");
         filePath = scanner.nextLine();
         try(PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(filePath)))){
-            String [] line;
-            System.out.println("Dados lidos com sucesso!");
+            ArrayList<String> attributesValues = new ArrayList<>();
+            T newObjectWriter = null;
+            switch (fileName) {
+                case "drivers":
+                    System.out.println(Driver.prompts()[0]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(0));
+                    printWriter.print("");
+                    System.out.println(Driver.prompts()[1]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(1));
+                    printWriter.print("");
+                    System.out.println(Driver.prompts()[2]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(2));
+                    printWriter.print("");
+                    System.out.println(Driver.prompts()[3]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(3));
+                    printWriter.print("");
+                    System.out.println(Driver.prompts()[4]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(4));
+                    printWriter.print("");
+                    System.out.println(Driver.prompts()[5]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(5));
+                    printWriter.print("");
+                    newObjectWriter = lineMapper.apply(attributesValues);
+                    list.add(newObjectWriter);
+                    break;
+                case "vehicles":
+                    System.out.println(Vehicle.prompts()[0]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(0));
+                    printWriter.print("");
+                    System.out.println(Vehicle.prompts()[1]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(1));
+                    printWriter.print("");
+                    System.out.println(Vehicle.prompts()[2]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(2));
+                    printWriter.print("");
+                    System.out.println(Vehicle.prompts()[3]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(3));
+                    printWriter.print("");
+                    newObjectWriter = lineMapper.apply(attributesValues);
+                    list.add(newObjectWriter);
+                    break;
+                case "clientes":
+                    System.out.println(Client.prompts()[0]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(0));
+                    printWriter.print("");
+                    System.out.println(Client.prompts()[1]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(1));
+                    printWriter.print("");
+                    System.out.println(Client.prompts()[2]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(2));
+                    printWriter.print("");
+                    System.out.println(Client.prompts()[3]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(3));
+                    printWriter.print("");
+                    newObjectWriter = lineMapper.apply(attributesValues);
+                    list.add(newObjectWriter);
+                    break;
+                case "reservations":
+                    System.out.println(Reservation.prompts()[0]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(0));
+                    printWriter.print("");
+                    System.out.println(Reservation.prompts()[1]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(1));
+                    printWriter.print("");
+                    System.out.println(Reservation.prompts()[2]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(2));
+                    printWriter.print("");
+                    System.out.println(Reservation.prompts()[3]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(3));
+                    printWriter.print("");
+                    System.out.println(Reservation.prompts()[4]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(4));
+                    printWriter.print("");
+                    newObjectWriter = lineMapper.apply(attributesValues);
+                    list.add(newObjectWriter);
+                    break;
+                case "travels":
+                    System.out.println(Travel.prompts()[0]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(0));
+                    printWriter.print("");
+                    System.out.println(Travel.prompts()[1]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(1));
+                    printWriter.print("");
+                    System.out.println(Travel.prompts()[2]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(2));
+                    printWriter.print("");
+                    System.out.println(Travel.prompts()[3]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(3));
+                    printWriter.print("");
+                    System.out.println(Travel.prompts()[4]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(4));
+                    printWriter.print("");
+                    System.out.println(Travel.prompts()[5]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(5));
+                    printWriter.print("");
+                    System.out.println(Travel.prompts()[6]);
+                    attributesValues.add(scanner.nextLine());
+                    printWriter.print(attributesValues.get(6));
+                    printWriter.print("");
+                    newObjectWriter = lineMapper.apply(attributesValues);
+                    list.add(newObjectWriter);
+                    break;
+                default:
+                    System.out.println("nome de ficheiro incorreto!");
+            }System.out.println("Dados escritos com sucesso!");
         }
         catch (FileNotFoundException e) {
             System.out.println("Ficheiro não encontrado!");
@@ -165,33 +329,39 @@ public class Main {
         return list;
     }
 
-    public static Client findClientByNIF(String [] line){
+    public static Client findClientByNIF(String [] line, String fileName){
+        if (fileName == "reservations.txt")
         for (Client client : clients){
             if(client.getNif() == Integer.parseInt(line[0])){
                 return  client;
             }
         }
+        else{
+            for (Client client : clients){
+                if(client.getNif() == Integer.parseInt(line[1])){
+                    return  client;
+                }
+            }
+        }
         return null;
     }
 
-    public void typeOfObjetc(){
-        if(fileName == "drivers"){
-            Driver newDriver = new Driver();
-            ArrayList<String> attributeValues = new ArrayList<>();
-            System.out.println(newDriver.prompts()[0]);
-            attributeValues.add(scanner.nextLine());
-            System.out.println(newDriver.prompts()[1]);
-            attributeValues.add(scanner.nextLine());
-            System.out.println(newDriver.prompts()[2]);
-            attributeValues.add(scanner.nextLine());
-            System.out.println(newDriver.prompts()[3]);
-            attributeValues.add(scanner.nextLine());
-            System.out.println(newDriver.prompts()[4]);
-            attributeValues.add(scanner.nextLine());
-            System.out.println(newDriver.prompts()[5]);
-            attributeValues.add(scanner.nextLine());
+    public static Driver findDriverByNIF(String [] line){
+        for (Driver driver : drivers){
+            if (driver.getNif() == Integer.parseInt(line[0])){
+                return  driver;
+            }
         }
+        return null;
     }
 
+    public static Vehicle findVehiculeBylicensePlate(String[] line){
+        for (Vehicle vehicle : vehicles){
+            if(vehicle.getLicensePlate().equals(line[2])){
+                return  vehicle;
+            }
+        }
+        return null;
+    }
 }
 

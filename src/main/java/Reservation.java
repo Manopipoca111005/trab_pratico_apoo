@@ -1,16 +1,16 @@
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Reservation implements Promptable {
+public class Reservation{
     private Client clients;
     private LocalDateTime startDateTime;
     private String originAddress;
     private String destinationAddress;
     private double kms;
-
-    @Override
-    public String[] prompts(){
-        return new String[] {"Digite a data/hora inicial: ",
+    public static String[] prompts(){
+        return new String[] {
+        "Digite o número de identificação fiscal do cliente:",
+        "Digite a data/hora inicial: ",
         "Digite o endereço de origem: ",
         "Digite o endereço de destino: ",
         "Digite os quilómetros(kms) pecorridos"
