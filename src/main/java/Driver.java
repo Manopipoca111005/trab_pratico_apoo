@@ -1,4 +1,4 @@
-public class Driver{
+public class Driver implements HasNif{
     private String name; // Nome
     private int NIC; // Número de Identificação Civil
     private String driverLicenseNumber;
@@ -7,17 +7,10 @@ public class Driver{
     private String tlm;
     private String address;
 
-    public static String[] prompts(){
-        return new String[] {
-                "Digite o nome do condutor: ",
-                "Digite o número de identificação do condutor: ",
-                "Digite o número da carta de condução do condutor",
-                "Digite o número de segurança social do condutor: ",
-                "Digite o número de telemóvel do condutor: ",
-                "Digite a morada do condutor: "
-        };
+    @Override
+    public int getNif() {
+        return this.nif;
     }
-
     Driver(String name, int NIC, String driverLicenseNumber, long niss, int nif, String tlm, String address) {
         this.name = name;
         this.NIC = NIC;
@@ -27,7 +20,6 @@ public class Driver{
         this.tlm = tlm;
         this.address = address;
     }
-    Driver() {}
 
     public int getNIC() {
         return NIC;
@@ -61,10 +53,6 @@ public class Driver{
         this.niss = niss;
     }
 
-    public int getNif() {
-        return nif;
-    }
-
     public void setNif(int nif) {
         this.nif = nif;
     }
@@ -83,5 +71,40 @@ public class Driver{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+
+    public static String[] prompts(){
+        return new String[] {
+                "Digite o nome do condutor: ",
+                "Digite o número de identificação do condutor: ",
+                "Digite o número da carta de condução do condutor",
+                "Digite o número de segurança social do condutor: ",
+                "Digite o número de identificação fiscal do condutor: ",
+                "Digite o número de telemóvel do condutor: ",
+                "Digite a morada do condutor: "
+        };
+    }
+
+    public static String [] infoPrompts(){
+        return new String[] {
+                "Nome do condutor: ",
+                "Número de identificação fiscal do condutor: ",
+                "Número da carta de condução do condutor: ",
+                "Número de segurança social: ",
+                "Número de telemóvel do condutor: ",
+                "Morada do condutor: "
+        };
+    }
+
+    public static void Menu(){
+        System.out.println("🚗 --- Gestão de Condutores --- 📋");
+        System.out.println("1  ✨ Criar Condutor");
+        System.out.println("2  📝 Listar Condutores");
+        System.out.println("3  🔍 Consultar Condutor (por ID)");
+        System.out.println("4  ✏️ Atualizar Condutor");
+        System.out.println("5  ❌ Eliminar Condutor");
+        System.out.println("0  ↩️ Voltar");
+        System.out.print("👉 Selecione uma opção: ");
     }
 }

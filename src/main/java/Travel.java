@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Travel {
+public class Travel implements HasNif {
     private Driver driver;
     private Client client;
     private Vehicle vehicle;
@@ -10,6 +10,11 @@ public class Travel {
     private String destinationAddress;
     private double kms;
     private double tripCost;
+
+    @Override
+    public int getNif() {
+        return this.client.getNif();
+    }
     public static String[] prompts(){
         return new String[] {
                 "Digite o número de identificação fiscal do condutor: ",

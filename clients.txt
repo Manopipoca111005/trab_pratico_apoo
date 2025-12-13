@@ -1,0 +1,110 @@
+switch (option) {
+                case 1:
+                    drivers = readFiles(line -> new Driver(
+                            line[0],
+                            Integer.parseInt(line[1]),
+                            line[2],
+                            Long.parseLong(line[3]),
+                            Integer.parseInt(line[4]),
+                            line[5],
+                            line[6]
+                    ), "drivers.txt");
+
+                    vehicles = readFiles(line -> new Vehicle(
+                            line[0],
+                            line[1],
+                            line[2],
+                            Integer.parseInt(line[3])
+                    ), "vehicles.txt");
+
+                    clients = readFiles(line -> new Client(
+                            line[0],
+                            Integer.parseInt(line[1]),
+                            line[2],
+                            line[3]
+                    ), "clientes.txt");
+
+                    reservations = readFiles(line -> new Reservation(
+                            findClientByNIF(line, "reservations.txt"),
+                            LocalDateTime.parse(line[1], FORMATTER),
+                            line[2],
+                            line[3],
+                            Double.parseDouble(line[4])
+                    ), "reservations.txt");
+
+                    travels = readFiles(line -> new Travel(
+                            findDriverByNIF(line),
+                            findClientByNIF(line,"travels.txt"),
+                            findVehiculeBylicensePlate(line),
+                            LocalDateTime.parse(line[3], FORMATTER),
+                            LocalDateTime.parse(line[4], FORMATTER),
+                            line[5],
+                            line[6],
+                            Double.parseDouble(line[7]),
+                            Double.parseDouble(line[8])
+                    ), "travels.txt");
+
+                case 2:
+                    drivers = writeFiles(line -> new Driver(
+                            attributeValues.get(0),
+                            Integer.parseInt(attributeValues.get(1)),
+                            attributeValues.get(2),
+                            Long.parseLong(attributeValues.get(3)),
+                            Integer.parseInt(attributeValues.get(4)),
+                            attributeValues.get(5),
+                            attributeValues.get(6)
+                    ), "drivers.txt");
+
+                    vehicles = writeFiles(line -> new Vehicle(
+                            attributeValues.get(0),
+                            attributeValues.get(1),
+                            attributeValues.get(2),
+                            Integer.parseInt(attributeValues.get(3))
+                    ), "vehicles.txt");
+
+                    clients = writeFiles(line -> new Client(
+                            attributeValues.get(0),
+                            Integer.parseInt(attributeValues.get(1)),
+                            attributeValues.get(2),
+                            attributeValues.get(3)
+                    ), "clientes.txt");
+
+                    reservations = writeFiles(line -> new Reservation(
+                            findClientByNIF(attributeValues.toArray(new String[10]), "reservations.txt"),
+                            LocalDateTime.parse(attributeValues.get(1), FORMATTER),
+                            attributeValues.get(2),
+                            attributeValues.get(3),
+                            Double.parseDouble(attributeValues.get(4))
+                    ), "reservations.txt");
+
+                    travels = writeFiles(line -> new Travel(
+                            findDriverByNIF(attributeValues.toArray(new String[10])),
+                            findClientByNIF(attributeValues.toArray(new String[10]),"travels.txt"),
+                            findVehiculeBylicensePlate(attributeValues.toArray(new String[10])),
+                            LocalDateTime.parse(attributeValues.get(3), FORMATTER),
+                            LocalDateTime.parse(attributeValues.get(4), FORMATTER),
+                            attributeValues.get(5),
+                            attributeValues.get(6),
+                            Double.parseDouble(attributeValues.get(7)),
+                            Double.parseDouble(attributeValues.get(8))
+                    ), "travels.txt");
+
+            }
+
+
+            try(BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))){
+                    String [] line;
+                    while (bufferedReader.ready()){
+                        line = bufferedReader.readLine().split(";");
+                        T newObjectReader = lineMapper.apply(line);
+                        list.add(newObjectReader);
+                    }
+                    System.out.println("Dados lidos com sucesso!");
+                }
+                    catch (FileNotFoundException e) {
+                    System.out.println("Ficheiro não encontrado!");
+                }
+                    catch (IOException e){
+                    System.out.println("Alguma coisa correu mal!");
+                }
+                    return list;

@@ -1,8 +1,14 @@
-public class Client{
+public class Client implements HasNif{
     private String name;
     private int nif;
     private String tlm;
     private String address;
+
+    @Override
+    public int getNif(){
+        return this.nif;
+    }
+
     public static String[] prompts(){
         return new String[]{
             "Digite o nome do cliente: ",
@@ -24,9 +30,6 @@ public class Client{
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public int getNif() {
-        return nif;
     }
     public void setNif(int nif) {
         this.nif = nif;
