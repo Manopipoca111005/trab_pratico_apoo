@@ -48,6 +48,12 @@ public class Travel implements HasNif {
     public Vehicle getVehicle() {
         return vehicle;
     }
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
+    }
     public String getOriginAddress() {
         return originAddress;
     }

@@ -76,33 +76,47 @@ public class Driver implements HasNif{
 
     public static String[] prompts(){
         return new String[] {
-                "Digite o nome do condutor: ",
-                "Digite o número de identificação do condutor: ",
-                "Digite o número da carta de condução do condutor",
-                "Digite o número de segurança social do condutor: ",
-                "Digite o número de identificação fiscal do condutor: ",
-                "Digite o número de telemóvel do condutor: ",
-                "Digite a morada do condutor: "
+                "📝 Digite o nome do condutor: ",
+                "🪪 Digite o número do cartão de cidadão do condutor: ",
+                "🪪 Digite o número da carta de condução do condutor: ",
+                "🪪 Digite o número de segurança social do condutor: ",
+                "🪪 Digite o número de identificação fiscal do condutor: ",
+                "📱 Digite o número de telemóvel do condutor: ",
+                "🏠 Digite a morada do condutor: "
         };
     }
 
     public static String [] infoPrompts(){
         return new String[] {
-                "Nome do condutor: ",
-                "Número de identificação fiscal do condutor: ",
-                "Número da carta de condução do condutor: ",
-                "Número de segurança social: ",
-                "Número de telemóvel do condutor: ",
-                "Morada do condutor: "
+                "📝 Nome do condutor: ",
+                "🪪 Número do cartão de cidadão do condutor: ",
+                "🪪 Número da carta de condução do condutor: ",
+                "🪪 Número de segurança social: ",
+                "🪪 Número de identificação fiscal do condutor: ",
+                "📱 Número de telemóvel do condutor: ",
+                "🏠 Morada do condutor: "
         };
+    }
+    @Override
+    public String toString() {
+        return "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                "👤 " + this.name.toUpperCase() + "\n" +
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                infoPrompts()[1] + this.getNIC() + "\n" +
+                infoPrompts()[2] + this.getDriverLicenseNumber() + "\n" +
+                infoPrompts()[3] + this.getNiss() + "\n" +
+                infoPrompts()[4] + this.getNif() + "\n" +
+                infoPrompts()[5] + this.getTlm() + "\n" +
+                infoPrompts()[6] + this.getAddress() + "\n" +
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
     }
 
     public static void Menu(){
-        System.out.println("🚗 --- Gestão de Condutores --- 📋");
+        System.out.println("👤 --- Gestão de Condutores --- 📋");
         System.out.println("1  ✨ Criar Condutor");
-        System.out.println("2  📝 Listar Condutores");
-        System.out.println("3  🔍 Consultar Condutor (por ID)");
-        System.out.println("4  ✏️ Atualizar Condutor");
+        System.out.println("2  📋 Listar Condutores");
+        System.out.println("3  🔍 Consultar Condutor (por NIF)");
+        System.out.println("4  📝 Atualizar Condutor");
         System.out.println("5  ❌ Eliminar Condutor");
         System.out.println("0  ↩️ Voltar");
         System.out.print("👉 Selecione uma opção: ");
