@@ -1,7 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Reservation implements HasNif{
+public class Reservation implements HasNif {
     private Client client;
     private LocalDateTime startDateTime;
     private String originAddress;
@@ -18,7 +18,8 @@ public class Reservation implements HasNif{
         return 0;
     }
 
-    Reservation(Client client ,LocalDateTime startDateTime, String originAddress, String destinationAddress, double kms) {
+    Reservation(Client client, LocalDateTime startDateTime, String originAddress, String destinationAddress,
+            double kms) {
         this.client = client;
         this.startDateTime = startDateTime;
         this.originAddress = originAddress;
@@ -29,35 +30,44 @@ public class Reservation implements HasNif{
     public Client getClient() {
         return client;
     }
+
     public void setClient(Client clients) {
         this.client = clients;
     }
+
     public LocalDateTime getStartDateTime() {
         return startDateTime;
     }
+
     public void setStartDateTime(LocalDateTime startDateTime) {
         this.startDateTime = startDateTime;
     }
+
     public String getOriginAddress() {
         return originAddress;
     }
+
     public void setOriginAddress(String originAddress) {
         this.originAddress = originAddress;
     }
+
     public String getDestinationAddress() {
         return destinationAddress;
     }
+
     public void setDestinationAddress(String destinationAddress) {
         this.destinationAddress = destinationAddress;
     }
+
     public double getKms() {
         return kms;
     }
+
     public void setKms(double kms) {
         this.kms = kms;
     }
 
-    public static void Menu(){
+    public static void Menu() {
         System.out.println("📅 --- Gestão de Reservas --- 📋");
         System.out.println("1.  ➕ Registar Reserva");
         System.out.println("2.  📋 Listar Reservas");
@@ -67,7 +77,8 @@ public class Reservation implements HasNif{
         System.out.println("0.  ↩️ Voltar");
         System.out.print("👉 Selecione uma opção: ");
     }
-    public static String[] prompts(){
+
+    public static String[] prompts() {
         return new String[] {
                 "🪪 Digite o número de identificação fiscal do cliente:",
                 "📅 Digite a data/hora inicial: ",
@@ -77,7 +88,7 @@ public class Reservation implements HasNif{
         };
     }
 
-    public static String [] infoPrompts(){
+    public static String[] infoPrompts() {
         return new String[] {
                 "👤 Nome do cliente: ",
                 "🪪 Número de identificação fiscal do cliente: ",
@@ -87,6 +98,7 @@ public class Reservation implements HasNif{
                 "🛣️ Quilómetros(kms) percorridos: "
         };
     }
+
     @Override
     public String toString() {
         return "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
