@@ -1,36 +1,36 @@
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Reservation{
-    private Client clients;
+public class Reservation implements HasNif{
+    private Client client;
     private LocalDateTime startDateTime;
     private String originAddress;
     private String destinationAddress;
     private double kms;
-    public static String[] prompts(){
-        return new String[] {
-        "Digite o número de identificação fiscal do cliente:",
-        "Digite a data/hora inicial: ",
-        "Digite o endereço de origem: ",
-        "Digite o endereço de destino: ",
-        "Digite os quilómetros(kms) pecorridos"
-        };
+
+    @Override
+    public int getClientNif() {
+        return this.getClient().getClientNif();
     }
 
+    @Override
+    public int getDriverNif() {
+        return 0;
+    }
 
-    Reservation(Client clients ,LocalDateTime startDateTime, String originAddress, String destinationAddress, double kms) {
-        this.clients = clients;
+    Reservation(Client client ,LocalDateTime startDateTime, String originAddress, String destinationAddress, double kms) {
+        this.client = client;
         this.startDateTime = startDateTime;
         this.originAddress = originAddress;
         this.destinationAddress = destinationAddress;
         this.kms = kms;
     }
 
-    public Client getClients() {
-        return clients;
+    public Client getClient() {
+        return client;
     }
-    public void setClients(Client clients) {
-        this.clients = clients;
+    public void setClient(Client clients) {
+        this.client = clients;
     }
     public LocalDateTime getStartDateTime() {
         return startDateTime;
@@ -55,5 +55,49 @@ public class Reservation{
     }
     public void setKms(double kms) {
         this.kms = kms;
+    }
+
+    public static void Menu(){
+        System.out.println("📅 --- Gestão de Reservas --- 📋");
+        System.out.println("1.  ➕ Registar Reserva");
+        System.out.println("2.  📋 Listar Reservas");
+        System.out.println("3.  🔍 Consultar Reserva (por NIF do cliente)");
+        System.out.println("4.  📝 Atualizar Reserva");
+        System.out.println("5.  🗑️ Eliminar Reserva");
+        System.out.println("0.  ↩️ Voltar");
+        System.out.print("👉 Selecione uma opção: ");
+    }
+    public static String[] prompts(){
+        return new String[] {
+                "🪪 Digite o número de identificação fiscal do cliente:",
+                "📅 Digite a data/hora inicial: ",
+                "🏠 Digite o endereço de origem: ",
+                "📍 Digite o endereço de destino: ",
+                "🛣️ Digite os quilómetros(kms) percorridos: "
+        };
+    }
+
+    public static String [] infoPrompts(){
+        return new String[] {
+                "👤 Nome do cliente: ",
+                "🪪 Número de identificação fiscal do cliente: ",
+                "🪪 Hora/Data inicial: ",
+                "🏠 Endereço de origem: ",
+                "📍 Endereço de destino: ",
+                "🛣️ Quilómetros(kms) percorridos: "
+        };
+    }
+    @Override
+    public String toString() {
+        return "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                "📅 Reserva do cliente " + this.getClient().getName() + " " + this.getClient().getClientNif() + "\n" +
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                infoPrompts()[0] + this.getClient().getName() + "\n" +
+                infoPrompts()[1] + this.getClient().getClientNif() + "\n" +
+                infoPrompts()[2] + this.getStartDateTime() + "\n" +
+                infoPrompts()[3] + this.getOriginAddress() + "\n" +
+                infoPrompts()[4] + this.getDestinationAddress() + "\n" +
+                infoPrompts()[5] + this.getKms() + "\n" +
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
     }
 }

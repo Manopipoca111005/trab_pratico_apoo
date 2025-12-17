@@ -1,3 +1,4 @@
 public interface HasNif {
-    int getNif();
+    int getClientNif();
+    int getDriverNif();
 }

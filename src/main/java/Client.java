@@ -5,17 +5,13 @@ public class Client implements HasNif{
     private String address;
 
     @Override
-    public int getNif(){
+    public int getClientNif() {
         return this.nif;
     }
 
-    public static String[] prompts(){
-        return new String[]{
-            "Digite o nome do cliente: ",
-            "Digite o número de identificação fiscal do cliente: ",
-            "Digite o número de telemóvel do cliente: ",
-            "Digite a morada do cliente: "
-        };
+    @Override
+    public int getDriverNif() {
+        return 0;
     }
 
     Client(String name, int nif, String tlm, String address) {
@@ -45,5 +41,44 @@ public class Client implements HasNif{
     }
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public static void Menu(){
+        System.out.println("👥 --- Gestão de Clientes --- 📋");
+        System.out.println("1.  ➕ Registar Cliente");
+        System.out.println("2.  📋 Listar Cliente");
+        System.out.println("3.  🔍 Consultar Cliente (por NIF)");
+        System.out.println("4.  📝 Atualizar Cliente");
+        System.out.println("5.  🗑️ Eliminar Cliente");
+        System.out.println("0.  ↩️ Voltar");
+        System.out.print("👉 Selecione uma opção: ");
+    }
+    public static String[] prompts(){
+        return new String[]{
+                "👤Digite o nome do cliente: ",
+                "🔢Digite o número de identificação fiscal do cliente: ",
+                "📱Digite o número de telemóvel do cliente: ",
+                "🏠Digite a morada do cliente: "
+        };
+    }
+
+    public static String [] infoPrompts(){
+        return new String[] {
+                "📝 Nome do cliente: ",
+                "🪪 Número do cartão de cidadão do cliente: ",
+                "📱 Número de telemóvel do cliente: ",
+                "🏠 Morada do cliente: "
+        };
+    }
+
+    @Override
+    public String toString() {
+        return "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                "👤 " + this.name.toUpperCase() + "\n" +
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                infoPrompts()[1] + this.getClientNif() + "\n" +
+                infoPrompts()[2] + this.getTlm() + "\n" +
+                infoPrompts()[3] + this.getAddress() + "\n" +
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
     }
 }

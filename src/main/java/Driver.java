@@ -8,7 +8,11 @@ public class Driver implements HasNif{
     private String address;
 
     @Override
-    public int getNif() {
+    public int getClientNif() {
+        return 0;
+    }
+    @Override
+    public int getDriverNif() {
         return this.nif;
     }
     Driver(String name, int NIC, String driverLicenseNumber, long niss, int nif, String tlm, String address) {
@@ -73,7 +77,16 @@ public class Driver implements HasNif{
         this.address = address;
     }
 
-
+    public static void Menu(){
+        System.out.println("👤 --- Gestão de Condutores --- 📋");
+        System.out.println("1.  ➕ Registar Condutor");
+        System.out.println("2.  📋 Listar Condutores");
+        System.out.println("3.  🔍 Consultar Condutor (por NIF)");
+        System.out.println("4.  📝 Atualizar Condutor");
+        System.out.println("5.  🗑️ Eliminar Condutor");
+        System.out.println("0.  ↩️ Voltar");
+        System.out.print("👉 Selecione uma opção: ");
+    }
     public static String[] prompts(){
         return new String[] {
                 "📝 Digite o nome do condutor: ",
@@ -105,20 +118,9 @@ public class Driver implements HasNif{
                 infoPrompts()[1] + this.getNIC() + "\n" +
                 infoPrompts()[2] + this.getDriverLicenseNumber() + "\n" +
                 infoPrompts()[3] + this.getNiss() + "\n" +
-                infoPrompts()[4] + this.getNif() + "\n" +
+                infoPrompts()[4] + this.getDriverNif() + "\n" +
                 infoPrompts()[5] + this.getTlm() + "\n" +
                 infoPrompts()[6] + this.getAddress() + "\n" +
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
-    }
-
-    public static void Menu(){
-        System.out.println("👤 --- Gestão de Condutores --- 📋");
-        System.out.println("1  ✨ Criar Condutor");
-        System.out.println("2  📋 Listar Condutores");
-        System.out.println("3  🔍 Consultar Condutor (por NIF)");
-        System.out.println("4  📝 Atualizar Condutor");
-        System.out.println("5  ❌ Eliminar Condutor");
-        System.out.println("0  ↩️ Voltar");
-        System.out.print("👉 Selecione uma opção: ");
     }
 }
