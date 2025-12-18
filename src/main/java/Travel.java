@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Travel implements HasNif, HasLicensePlate {
     private Driver driver;
@@ -22,11 +23,12 @@ public class Travel implements HasNif, HasLicensePlate {
     }
 
     @Override
-    public String getLicensePlate(){
+    public String getLicensePlate() {
         return this.vehicle.getLicensePlate();
     }
 
-    Travel(Driver driver, Client client, Vehicle vehicle, LocalDateTime startDateTime, LocalDateTime endDateTime, String originAddress, String destinationAddress, double kms, double tripCost) {
+    Travel(Driver driver, Client client, Vehicle vehicle, LocalDateTime startDateTime, LocalDateTime endDateTime,
+            String originAddress, String destinationAddress, double kms, double tripCost) {
         this.driver = driver;
         this.client = client;
         this.startDateTime = startDateTime;
@@ -41,42 +43,55 @@ public class Travel implements HasNif, HasLicensePlate {
     public Driver getDriver() {
         return driver;
     }
+
     public Client getClient() {
         return client;
     }
+
     public Vehicle getVehicle() {
         return vehicle;
     }
+
     public LocalDateTime getStartDateTime() {
         return startDateTime;
     }
+
     public LocalDateTime getEndDateTime() {
         return endDateTime;
     }
+
     public String getOriginAddress() {
         return originAddress;
     }
+
     public String getDestinationAddress() {
         return destinationAddress;
     }
+
     public double getKms() {
         return kms;
     }
+
     public double getTripCost() {
         return tripCost;
     }
+
     public void setDriver(Driver driver) {
         this.driver = driver;
     }
+
     public void setClient(Client client) {
         this.client = client;
     }
+
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
+
     public void setOriginAddress(String originAddress) {
         this.originAddress = originAddress;
     }
+
     public void setDestinationAddress(String destinationAddress) {
         this.destinationAddress = destinationAddress;
     }
@@ -88,14 +103,16 @@ public class Travel implements HasNif, HasLicensePlate {
     public void setEndDateTime(LocalDateTime endDateTime) {
         this.endDateTime = endDateTime;
     }
+
     public void setKms(double kms) {
         this.kms = kms;
     }
+
     public void setTripCost(double tripCost) {
         this.tripCost = tripCost;
     }
 
-    public static void Menu(){
+    public static void Menu() {
         System.out.println("📅 --- Gestão de Viagens --- 📋");
         System.out.println("1.  ➕ Registar Viagem");
         System.out.println("2.  📋 Listar Viagens");
@@ -106,7 +123,7 @@ public class Travel implements HasNif, HasLicensePlate {
         System.out.print("👉 Selecione uma opção: ");
     }
 
-    public static String[] prompts(){
+    public static String[] prompts() {
         return new String[] {
                 "🪪 Digite o número de identificação fiscal do condutor: ",
                 "🪪 Digite o número de identificação fiscal do cliente: ",
@@ -120,7 +137,7 @@ public class Travel implements HasNif, HasLicensePlate {
         };
     }
 
-    public static String [] infoPrompts(){
+    public static String[] infoPrompts() {
         return new String[] {
                 "👤 Nome do cliente: ",
                 "🪪 Número de identificação fiscal do cliente: ",
@@ -138,25 +155,28 @@ public class Travel implements HasNif, HasLicensePlate {
                 "💰 Custo da viagem: "
         };
     }
+
     @Override
     public String toString() {
         return "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
                 "🗺️ " + this.getClient().getName().toUpperCase() + " " + this.getClient().getClientNif() + "\n + " +
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
-                infoPrompts()[1] + this.getClient().getName() + "\n" +
-                infoPrompts()[2] + this.getClient().getClientNif() + "\n" +
-                infoPrompts()[3] + this.getDriver().getName() + "\n" +
-                infoPrompts()[4] + this.getDriver().getClientNif() + "\n" +
-                infoPrompts()[5] + this.getVehicle().getLicensePlate() + "\n" +
-                infoPrompts()[6] + this.getVehicle().getBrand() + "\n" +
-                infoPrompts()[7] + this.getVehicle().getModel() + "\n" +
-                infoPrompts()[8] + this.getVehicle().getProductionYear() + "\n" +
-                infoPrompts()[9] + this.getStartDateTime() + "\n" +
-                infoPrompts()[10] + this.getEndDateTime() + "\n" +
-                infoPrompts()[11] + this.getOriginAddress() + "\n" +
-                infoPrompts()[12] + this.getDestinationAddress() + "\n" +
-                infoPrompts()[13] + this.getKms() + "\n" +
-                infoPrompts()[14] + this.getTripCost() + "\n" +
+                infoPrompts()[0] + this.getClient().getName() + "\n" +
+                infoPrompts()[1] + this.getClient().getClientNif() + "\n" +
+                infoPrompts()[2] + this.getDriver().getName() + "\n" +
+                infoPrompts()[3] + this.getDriver().getDriverNif() + "\n" +
+                infoPrompts()[4] + this.getVehicle().getLicensePlate() + "\n" +
+                infoPrompts()[5] + this.getVehicle().getBrand() + "\n" +
+                infoPrompts()[6] + this.getVehicle().getModel() + "\n" +
+                infoPrompts()[7] + this.getVehicle().getProductionYear() + "\n" +
+                infoPrompts()[8] + this.getStartDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+                + "\n" +
+                infoPrompts()[9] + this.getEndDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "\n"
+                +
+                infoPrompts()[10] + this.getOriginAddress() + "\n" +
+                infoPrompts()[11] + this.getDestinationAddress() + "\n" +
+                infoPrompts()[12] + this.getKms() + "\n" +
+                infoPrompts()[13] + this.getTripCost() + "\n" +
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
     }
 

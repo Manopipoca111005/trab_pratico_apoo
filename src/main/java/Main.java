@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,7 +9,8 @@ import java.util.function.Function;
 public class Main {
     public static String fileName;
     public static String filePath;
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static public Scanner scanner = new Scanner(System.in);
     public static ArrayList<Driver> drivers = new ArrayList<>();
     public static ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -20,8 +22,8 @@ public class Main {
     public static Vehicle vehicleFound;
     public static Reservation reservationFound;
     public static Travel travelFound;
-
     public static Client clientFound;
+    public static ArrayList<Travel> travelsFound = new ArrayList<>();
 
     public static void Header() {
         System.out.println("=========================================");
@@ -77,18 +79,18 @@ public class Main {
                 line[3]), "clients.txt");
 
         reservations = readFiles(line -> new Reservation(
-                findByNIF(Integer.parseInt(line[0]), clients),
-                LocalDateTime.parse(line[1], FORMATTER),
+                findByNIF(Integer.parseInt(line[0]), clients, "clients"),
+                LocalDateTime.parse(line[1], DATE_TIME_FORMATTER),
                 line[2],
                 line[3],
                 Double.parseDouble(line[4])), "reservations.txt");
 
         travels = readFiles(line -> new Travel(
-                findByNIF(Integer.parseInt(line[0]), drivers),
-                findByNIF(Integer.parseInt(line[1]), clients),
-                findVehiculeByLicensePlate(line[2]),
-                LocalDateTime.parse(line[3], FORMATTER),
-                LocalDateTime.parse(line[4], FORMATTER),
+                findByNIF(Integer.parseInt(line[0]), drivers, "drivers"),
+                findByNIF(Integer.parseInt(line[1]), clients, "clients"),
+                findVehicleByLicensePlate(line[2]),
+                LocalDateTime.parse(line[3], DATE_TIME_FORMATTER),
+                LocalDateTime.parse(line[4], DATE_TIME_FORMATTER),
                 line[5],
                 line[6],
                 Double.parseDouble(line[7]),
@@ -112,7 +114,7 @@ public class Main {
                                 Long.parseLong(line.get(3)),
                                 Integer.parseInt(line.get(4)),
                                 line.get(5),
-                                line.get(6)), "drivers.txt");
+                                line.get(6)), "drivers.txt", true, null);
                         break;
                     case 2:
                         infoTitle("📋", "INFORMAÇÕES DOS CONDUTORES");
@@ -123,15 +125,14 @@ public class Main {
                     case 3:
                         System.out.print("🪪Digite o número de identificação fiscal do condutor: ");
                         nif = scanner.nextInt();
-                        travelFound = findByNIF(nif, travels);
-                        System.out.println(driverFound);
+                        travelFound = findByNIF(nif, travels, "clients");
+                        System.out.println(travelFound);
                         break;
                     case 4:
                         System.out.print("Digite o número do cartão de cidadão do condutor: ");
                         nif = scanner.nextInt();
                         scanner.nextLine();
-                        findByNIF(nif, drivers);
-                        driverFound = findByNIF(nif, drivers);
+                        driverFound = findByNIF(nif, drivers, "drivers");
                         System.out.print(Driver.prompts()[0]);
                         value = scanner.nextLine();
                         if (!value.isEmpty()) {
@@ -168,7 +169,7 @@ public class Main {
                         System.out.print("🪪Digite o número de identificação fiscal do condutor: ");
                         nif = scanner.nextInt();
                         scanner.nextLine();
-                        driverFound = findByNIF(nif, drivers);
+                        driverFound = findByNIF(nif, drivers, "drivers");
                         boolean isNotValid = false;
                         for (Travel travel : travels) {
                             if (driverFound.getDriverNif() == (travel.getDriverNif())) {
@@ -219,7 +220,7 @@ public class Main {
                                 line.get(0),
                                 line.get(1),
                                 line.get(2),
-                                Integer.parseInt(line.get(3))), "vehicles.txt");
+                                Integer.parseInt(line.get(3))), "vehicles.txt", true, null);
                         break;
                     case 2:
                         infoTitle("📋", "INFORMAÇÕES DAS VIATURAS");
@@ -230,12 +231,12 @@ public class Main {
                     case 3:
                         System.out.print("🔢Digite a matricula do veiculo: ");
                         licensePlate = scanner.nextLine();
-                        vehicleFound = findVehiculeByLicensePlate(licensePlate);
+                        vehicleFound = findVehicleByLicensePlate(licensePlate);
                         System.out.println(vehicleFound);
                     case 4:
                         System.out.print("🔢Digite a matricula do veiculo: ");
                         licensePlate = scanner.nextLine();
-                        vehicleFound = findVehiculeByLicensePlate(licensePlate);
+                        vehicleFound = findVehicleByLicensePlate(licensePlate);
                         System.out.print(Driver.prompts()[0]);
                         value = scanner.nextLine();
                         if (!value.isEmpty()) {
@@ -258,7 +259,7 @@ public class Main {
                         line = null;
                         System.out.print("🔢Digite a matricula do veiculo: ");
                         licensePlate = scanner.nextLine();
-                        vehicleFound = findVehiculeByLicensePlate(licensePlate);
+                        vehicleFound = findVehicleByLicensePlate(licensePlate);
                         boolean isNotValid = false;
                         for (Travel travel : travels) {
                             if (vehicleFound.getLicensePlate().equals(travel.getLicensePlate())) {
@@ -304,7 +305,7 @@ public class Main {
                                 line.get(0),
                                 Integer.parseInt(line.get(1)),
                                 line.get(2),
-                                line.get(3)), "clients.txt");
+                                line.get(3)), "clients.txt", true, null);
                         break;
                     case 2:
                         infoTitle("📋", "INFORMAÇÕES DOS CLIENTES");
@@ -315,15 +316,14 @@ public class Main {
                     case 3:
                         System.out.print("🪪Digite o número de identificação fiscal do cliente: ");
                         nif = scanner.nextInt();
-                        clientFound = findByNIF(nif, clients);
+                        clientFound = findByNIF(nif, clients, "clients");
                         System.out.println(clientFound);
                         break;
                     case 4:
                         System.out.print("🪪Digite o número de identificação fiscal do cliente: ");
                         nif = scanner.nextInt();
                         scanner.nextLine();
-                        findByNIF(nif, clients);
-                        clientFound = findByNIF(nif, clients);
+                        clientFound = findByNIF(nif, clients, "clients");
                         System.out.print(Client.prompts()[0]);
                         value = scanner.nextLine();
                         if (!value.isEmpty()) {
@@ -348,7 +348,7 @@ public class Main {
                         System.out.print("🪪Digite o número do identificação fiscal do cliente: ");
                         nif = scanner.nextInt();
                         scanner.nextLine();
-                        clientFound = findByNIF(nif, clients);
+                        clientFound = findByNIF(nif, clients, "clients");
                         boolean isNotValid = false;
                         for (Reservation reservation : reservations) {
                             if (clientFound.getClientNif() == reservation.getClientNif()) {
@@ -398,7 +398,7 @@ public class Main {
                     case 1:
                         reservations = writeFiles(line -> {
                             try {
-                                clientFound = findByNIF(Integer.parseInt(line.get(0)), clients);
+                                clientFound = findByNIF(Integer.parseInt(line.get(0)), clients, "clients");
                                 int clientReservationsNum = 0;
 
                                 for (Reservation reservation : reservations) {
@@ -412,7 +412,7 @@ public class Main {
                                 if (clientReservationsNum < 2) {
                                     return new Reservation(
                                             clientFound,
-                                            LocalDateTime.parse(line.get(1), FORMATTER),
+                                            LocalDateTime.parse(line.get(1), DATE_TIME_FORMATTER),
                                             line.get(2),
                                             line.get(3),
                                             Double.parseDouble(line.get(4)));
@@ -421,7 +421,7 @@ public class Main {
                             } catch (Exception e) {
                                 return null;
                             }
-                        }, "reservations.txt");
+                        }, "reservations.txt", true, null);
                         break;
                     case 2:
                         infoTitle("📋", "INFORMAÇÕES DAS RESERVAS");
@@ -432,19 +432,19 @@ public class Main {
                     case 3:
                         System.out.print("🪪Digite o número de identificação fiscal do cliente: ");
                         nif = scanner.nextInt();
-                        reservationFound = findByNIF(nif, reservations);
+                        reservationFound = findByNIF(nif, reservations, "clients");
                         System.out.println(reservationFound);
                         break;
                     case 4:
                         System.out.print("🪪Digite o número de identificação fiscal do cliente: ");
                         nif = scanner.nextInt();
                         scanner.nextLine();
-                        findByNIF(nif, reservations);
-                        reservationFound = findByNIF(nif, reservations);
+                        findByNIF(nif, reservations, "clients");
+                        reservationFound = findByNIF(nif, reservations, "clients");
                         System.out.print(Client.prompts()[0]);
                         value = scanner.nextLine();
                         if (!value.isEmpty()) {
-                            reservationFound.setClient(findByNIF(Integer.parseInt(value), clients));
+                            reservationFound.setClient(findByNIF(Integer.parseInt(value), clients, "clients"));
                         }
                         System.out.print(Driver.prompts()[1]);
                         if (!value.isEmpty()) {
@@ -469,7 +469,7 @@ public class Main {
                         System.out.print("🪪Digite o número do identificação fiscal do cliente: ");
                         nif = scanner.nextInt();
                         scanner.nextLine();
-                        reservationFound = findByNIF(nif, reservations);
+                        reservationFound = findByNIF(nif, reservations, "clients");
                         reservations.remove(reservationFound);
                         try (PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(filePath)))) {
                             for (Reservation reservation : reservations) {
@@ -501,9 +501,9 @@ public class Main {
                     case 1:
                         travels = writeFiles(line -> {
                             try {
-                                driverFound = findByNIF(Integer.parseInt(line.get(0)), drivers);
-                                clientFound = findByNIF(Integer.parseInt(line.get(1)), clients);
-                                vehicleFound = findVehiculeByLicensePlate(line.get(2));
+                                driverFound = findByNIF(Integer.parseInt(line.get(0)), drivers, "drivers");
+                                clientFound = findByNIF(Integer.parseInt(line.get(1)), clients, "clients");
+                                vehicleFound = findVehicleByLicensePlate(line.get(2));
                                 int clientReservationsNum = 0;
 
                                 for (Travel travel : travels) {
@@ -518,11 +518,11 @@ public class Main {
 
                                 if (clientReservationsNum < 2) {
                                     return new Travel(
-                                            findByNIF(Integer.parseInt(line.get(0)), drivers),
-                                            findByNIF(Integer.parseInt(line.get(1)), clients),
-                                            findVehiculeByLicensePlate(line.get(2)),
-                                            LocalDateTime.parse(line.get(3), FORMATTER),
-                                            LocalDateTime.parse(line.get(4), FORMATTER),
+                                            findByNIF(Integer.parseInt(line.get(0)), drivers, "drivers"),
+                                            findByNIF(Integer.parseInt(line.get(1)), clients, "clients"),
+                                            findVehicleByLicensePlate(line.get(2)),
+                                            LocalDateTime.parse(line.get(3), DATE_TIME_FORMATTER),
+                                            LocalDateTime.parse(line.get(4), DATE_TIME_FORMATTER),
                                             line.get(5),
                                             line.get(6),
                                             Double.parseDouble(line.get(7)),
@@ -532,7 +532,7 @@ public class Main {
                             } catch (Exception e) {
                                 return null;
                             }
-                        }, "reservations.txt");
+                        }, "reservations.txt", true, null);
                         break;
                     case 2:
                         infoTitle("📋", "INFORMAÇÕES DAS VIAGENS");
@@ -543,27 +543,26 @@ public class Main {
                     case 3:
                         System.out.print("🪪Digite o número de identificação fiscal do cliente: ");
                         nif = scanner.nextInt();
-                        travelFound = findByNIF(nif, travels);
+                        travelFound = findByNIF(nif, travels, "clients");
                         System.out.println(travelFound);
                         break;
                     case 4:
                         System.out.print("🪪Digite o número de identificação fiscal do cliente: ");
                         nif = scanner.nextInt();
                         scanner.nextLine();
-                        findByNIF(nif, travels);
-                        travelFound = findByNIF(nif, travels);
+                        travelFound = findByNIF(nif, travels, "clients");
                         System.out.print(Travel.prompts()[0]);
                         value = scanner.nextLine();
                         if (!value.isEmpty()) {
-                            travelFound.setDriver(findByNIF(Integer.parseInt(value), drivers));
+                            travelFound.setDriver(findByNIF(Integer.parseInt(value), drivers, "drivers"));
                         }
                         System.out.print(Travel.prompts()[1]);
                         if (!value.isEmpty()) {
-                            travelFound.setClient(findByNIF(Integer.parseInt(value), clients));
+                            travelFound.setClient(findByNIF(Integer.parseInt(value), clients, "clients"));
                         }
                         System.out.print(Travel.prompts()[2]);
                         if (!value.isEmpty()) {
-                            travelFound.setVehicle(findVehiculeByLicensePlate(value));
+                            travelFound.setVehicle(findVehicleByLicensePlate(value));
                         }
                         System.out.print(Travel.prompts()[3]);
                         if (!value.isEmpty()) {
@@ -596,7 +595,7 @@ public class Main {
                         System.out.print("🪪Digite o número do identificação fiscal do cliente: ");
                         nif = scanner.nextInt();
                         scanner.nextLine();
-                        travelFound = findByNIF(nif, travels);
+                        travelFound = findByNIF(nif, travels, "clients");
                         for (int i = 1; i < travels.toArray().length; i++) {
                             if (travelFound.getClientNif() == travels.get(i - 1).getClientNif() && travels.get(i)
                                     .getStartDateTime().equals(travels.get(i - 1).getStartDateTime())) {
@@ -640,27 +639,56 @@ public class Main {
             case 6:
                 System.out.print("🪪Digite o número de identificação fiscal do cliente: ");
                 nif = scanner.nextInt();
-                reservationFound = findByNIF(nif, reservations);
-                ArrayList<String> attributeValues = new ArrayList<>();
-                System.out.println(Travel.prompts()[0]);
-                attributeValues.add(scanner.nextLine());
-                System.out.println(Travel.prompts()[2]);
-                attributeValues.add(scanner.nextLine());
-                System.out.println(Travel.prompts()[4]);
-                attributeValues.add(scanner.nextLine());
-                System.out.println(Travel.prompts()[8]);
-                attributeValues.add(scanner.nextLine());
+                reservationFound = findByNIF(nif, reservations, "clients");
                 travels = writeFiles(line -> new Travel(
-                        findByNIF(Integer.parseInt(attributeValues.get(0)), drivers),
+                        findByNIF(Integer.parseInt(line.get(0)), drivers, "drivers"),
                         reservationFound.getClient(),
-                        findVehiculeByLicensePlate(attributeValues.get(1)),
+                        findVehicleByLicensePlate(line.get(1)),
                         reservationFound.getStartDateTime(),
-                        LocalDateTime.parse(attributeValues.get(2), FORMATTER),
+                        LocalDateTime.parse(line.get(2), DATE_TIME_FORMATTER),
                         reservationFound.getOriginAddress(),
                         reservationFound.getDestinationAddress(),
                         reservationFound.getKms(),
-                        Double.parseDouble(attributeValues.get(3))), "travels.txt");
+                        Double.parseDouble(line.get(3))), "travels.txt", false, reservationFound);
+                reservations.remove(reservationFound);
                 break;
+            case 7:
+                System.out.println("------------------------------------------");
+                System.out.println("        📊 Pesquisas e Estatísticas       ");
+                System.out.println("------------------------------------------");
+                System.out.println("1. 🔍 Pesquisar Viagens de Cliente por Data");
+                System.out.println("2. 🚐 Listar Clientes associados a uma Viatura");
+                System.out.println("3. 💰 Total Faturado por Motorista num Intervalo de Datas");
+                System.out.println("4. 📏 Distância Média das Viagens por Período");
+                System.out.println("5. 📍 Destino mais solicitado por Período");
+                System.out.println("6. 👥 Listar Clientes por Intervalo de Distância de Viagem");
+                System.out.println("0. ⬅️ Voltar ao Menu Principal");
+                System.out.println("------------------------------------------");
+                System.out.print("👉 Selecione uma opção: ");
+                option = scanner.nextInt();
+                switch (option) {
+                    case 1:
+                        System.out.print(Travel.prompts()[1]);
+                        nif = scanner.nextInt();
+                        System.out.print("Digite a data inicial: ");
+                        LocalDate startDate = LocalDate.parse(scanner.next(), DATE_FORMATTER);
+                        System.out.print("Digite a data final: ");
+                        LocalDate endDate = LocalDate.parse(scanner.next(), DATE_FORMATTER);
+                        findTravelByDate(startDate, endDate, nif, travelsFound);
+                        for (Travel travel : travelsFound) {
+                            System.out.println(travel);
+                        }
+                        break;
+                }
+            case 8:
+                System.out.println("------------------------------------------");
+                System.out.println("      📁 Gestão de Ficheiros e Dados      ");
+                System.out.println("------------------------------------------");
+                System.out.println("1. 💾 Gravar Dados no Ficheiro (Exportar)");
+                System.out.println("2. 📂 Ler Dados do Ficheiro (Importar)");
+                System.out.println("0. ⬅️ Voltar ao Menu Principal");
+                System.out.println("------------------------------------------");
+                System.out.print("👉 Selecione uma opção: ");
         }
 
     }
@@ -702,7 +730,8 @@ public class Main {
         return list;
     }
 
-    public static <T> ArrayList<T> writeFiles(Function<ArrayList<String>, T> lineMapper, String fileName) {
+    public static <T> ArrayList<T> writeFiles(Function<ArrayList<String>, T> lineMapper, String fileName,
+            boolean isObjectNew, Reservation reservation) {
         ArrayList<T> list = new ArrayList<>();
         switch (fileName) {
             case "drivers.txt":
@@ -787,20 +816,48 @@ public class Main {
                     list.add(newObjectWriter);
                     break;
                 case "travels.txt":
-                    for (int i = 0; i < Travel.prompts().length; i++) {
-                        System.out.print(Travel.prompts()[i]);
-                        System.out.flush();
-                        attributesValues.add(scanner.next());
-                        printWriter.print(attributesValues.get(i));
-                        printWriter.print(";");
-                        System.out.flush();
+                    if (isObjectNew) {
+                        for (int i = 0; i < Travel.prompts().length; i++) {
+                            System.out.print(Travel.prompts()[i]);
+                            System.out.flush();
+                            attributesValues.add(scanner.next());
+                            printWriter.print(attributesValues.get(i));
+                            printWriter.print(";");
+                            System.out.flush();
+                        }
+                        printWriter.println();
+                        newObjectWriter = lineMapper.apply(attributesValues);
+                        list.add(newObjectWriter);
                     }
-                    printWriter.println();
-                    newObjectWriter = lineMapper.apply(attributesValues);
-                    list.add(newObjectWriter);
+                    System.out.print(Travel.prompts()[0]);
+                    System.out.flush();
+                    attributesValues.add(scanner.next());
+                    printWriter.print(attributesValues.get(0));
+                    printWriter.print(";");
+                    printWriter.print(reservation.getClientNif());
+                    printWriter.print(";");
+                    System.out.print(Travel.prompts()[2]);
+                    System.out.flush();
+                    attributesValues.add(scanner.next());
+                    printWriter.print(attributesValues.get(1));
+                    printWriter.print(";");
+                    printWriter.print(reservation.getStartDateTime());
+                    printWriter.print(";");
+                    System.out.print(Travel.prompts()[4]);
+                    System.out.flush();
+                    attributesValues.add(scanner.next());
+                    printWriter.print(attributesValues.get(2));
+                    printWriter.print(";");
+                    printWriter.print(reservation.getOriginAddress());
+                    printWriter.print(";");
+                    printWriter.print(reservation.getDestinationAddress());
+                    printWriter.print(";");
+                    printWriter.print(reservation.getKms());
+                    System.out.println(Travel.prompts()[8]);
+                    System.out.flush();
+                    attributesValues.add(scanner.next());
+                    printWriter.print(attributesValues.get(3));
                     break;
-                default:
-                    System.out.println("Erro interno na lógica do switch. Ficheiro não processado.");
             }
             System.out.println("Dados escritos com sucesso!");
         } catch (IOException e) {
@@ -810,21 +867,40 @@ public class Main {
         return list;
     }
 
-    public static <T extends HasNif> T findByNIF(int nif, ArrayList<T> objects) {
-        for (T object : objects) {
-            if (object.getClientNif() == nif) {
-                return object;
+    public static <T extends HasNif> T findByNIF(int nif, ArrayList<T> objects, String typeOfObject) {
+        if (typeOfObject.equals("clients")) {
+            for (T object : objects) {
+                if (object.getClientNif() == nif) {
+                    return object;
+                }
+            }
+        } else if (typeOfObject.equals("drivers")) {
+            for (T object : objects) {
+                if (object.getDriverNif() == nif) {
+                    return object;
+                }
             }
         }
         return null;
     }
 
-    public static Vehicle findVehiculeByLicensePlate(String licensePlate) {
+    public static Vehicle findVehicleByLicensePlate(String licensePlate) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getLicensePlate().equals(licensePlate)) {
                 return vehicle;
             }
         }
         return null;
+    }
+
+    public static ArrayList<Travel> findTravelByDate(LocalDate startDate, LocalDate endDate, int nif,
+            ArrayList<Travel> travelsFound) {
+        for (Travel travel : travels) {
+            if (nif == travel.getClientNif() && !travel.getStartDateTime().toLocalDate().isBefore(startDate)
+                    && !travel.getEndDateTime().toLocalDate().isAfter(endDate)) {
+                travelsFound.add(travel);
+            }
+        }
+        return travelsFound;
     }
 }
