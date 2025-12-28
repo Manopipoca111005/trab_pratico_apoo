@@ -70,7 +70,7 @@ public class Reservation implements HasNif {
         System.out.println("📅 --- Gestão de Reservas --- 📋");
         System.out.println("1.  ➕ Registar Reserva");
         System.out.println("2.  📋 Listar Reservas");
-        System.out.println("3.  🔍 Consultar Reserva (por NIF do cliente)");
+        System.out.println("3.  🔍 Consultar Reservas de um cliente por NIF");
         System.out.println("4.  📝 Atualizar Reserva");
         System.out.println("5.  🗑️ Eliminar Reserva");
         System.out.println("0.  ↩️ Voltar");
@@ -80,7 +80,7 @@ public class Reservation implements HasNif {
     public static String[] prompts() {
         return new String[] {
                 "🪪 Digite o número de identificação fiscal do cliente:",
-                "📅 Digite a data/hora inicial: ",
+                "📅 Digite a data/hora inicial (dd/MM/yyyy HH:mm): ",
                 "🏠 Digite o endereço de origem: ",
                 "📍 Digite o endereço de destino: ",
                 "🛣️ Digite os quilómetros(kms) percorridos: "
