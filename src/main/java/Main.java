@@ -12,6 +12,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
 
+/**
+ * Main application class for the TVDE Management System.
+ * Handles the main execution loop, user interaction, and file I/O operations.
+ */
 public class Main {
     public static Path folder;
     public static String fileName;
@@ -32,6 +36,9 @@ public class Main {
     public static Client clientFound;
     public static ArrayList<Travel> travelsFound = new ArrayList<>();
 
+    /**
+     * Displays the application header/logo.
+     */
     public static void Header() {
         System.out.println("=========================================");
         System.out.println("       🚗 SISTEMA DE GESTÃO TVDE 📊       ");
@@ -49,6 +56,9 @@ public class Main {
 
     }
 
+    /**
+     * Displays the main menu options to the console.
+     */
     public static void Menu() {
         System.out.println("------------------------------------------");
         System.out.println("         💻 Menu Principal Sistema TVDE    ");
@@ -66,6 +76,12 @@ public class Main {
         System.out.print("👉 Selecione uma opção: ");
     }
 
+    /**
+     * Helper method to display a formatted title with an emoji.
+     *
+     * @param emoji The emoji to display.
+     * @param title The title text.
+     */
     public static void infoTitle(String emoji, String title) {
         String line = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
         System.out.println(line);
@@ -73,6 +89,12 @@ public class Main {
         System.out.println(line + "\n");
     }
 
+    /**
+     * The main method creates the application entry point.
+     * Initializes data references and starts the main application loop.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         Header();
 
@@ -830,6 +852,15 @@ public class Main {
 
     }
 
+    /**
+     * Generic method to read data from a file and map it to objects.
+     *
+     * @param <T>        The type of object to create.
+     * @param lineMapper A function that maps an array of strings (lines) to an
+     *                   object of type T.
+     * @param fileName   The name of the file to read from.
+     * @return An ArrayList containing the objects read from the file.
+     */
     static <T> ArrayList<T> readFiles(Function<String[], T> lineMapper, String fileName) {
         ArrayList<T> list = new ArrayList<>();
         switch (fileName) {
@@ -871,6 +902,18 @@ public class Main {
         return list;
     }
 
+    /**
+     * Generic method to write data to a file.
+     * Supports appending or creating new records.
+     *
+     * @param <T>         The type of object being written (though return is list of
+     *                    T).
+     * @param lineMapper  A function to map attributes to an object.
+     * @param fileName    The name of the destination file.
+     * @param isObjectNew Flag indicating if the object is new or an update.
+     * @param reservation Optional reservation object for specific logic.
+     * @return An ArrayList of the objects processed.
+     */
     public static <T> ArrayList<T> writeFiles(Function<ArrayList<String>, T> lineMapper, String fileName,
             boolean isObjectNew, Reservation reservation) {
         ArrayList<T> list = new ArrayList<>();
@@ -1005,6 +1048,15 @@ public class Main {
         return list;
     }
 
+    /**
+     * Searches for an object (Client or Driver) by its NIF.
+     *
+     * @param <T>          The type of object (must implement HasNif).
+     * @param nif          The NIF to search for.
+     * @param objects      The list of objects to search within.
+     * @param typeOfObject A string indicating the type ("clients" or "drivers").
+     * @return The object if found, otherwise null.
+     */
     public static <T extends HasNif> T findByNIF(int nif, ArrayList<T> objects, String typeOfObject) {
         if (typeOfObject.equals("clients")) {
             for (T object : objects) {
@@ -1022,6 +1074,12 @@ public class Main {
         return null;
     }
 
+    /**
+     * Searches for a vehicle by its license plate.
+     *
+     * @param licensePlate The license plate to search for.
+     * @return The Vehicle object if found, otherwise null.
+     */
     public static Vehicle findVehicleByLicensePlate(String licensePlate) {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getLicensePlate().equals(licensePlate)) {
@@ -1031,6 +1089,15 @@ public class Main {
         return null;
     }
 
+    /**
+     * Searches for travels within a specific date range for a given client NIF.
+     *
+     * @param startDate    The start date of the range.
+     * @param endDate      The end date of the range.
+     * @param nif          The client NIF.
+     * @param travelsFound The list to add found travels to.
+     * @return The list of travels found.
+     */
     public static ArrayList<Travel> findTravelByDate(LocalDate startDate, LocalDate endDate, int nif,
             ArrayList<Travel> travelsFound) {
         for (Travel travel : travels) {
@@ -1043,6 +1110,10 @@ public class Main {
     }
 
     // Método para gravar todos os dados nos ficheiros
+    /**
+     * Saves all in-memory data (drivers, vehicles, clients, reservations, travels)
+     * to their respective files.
+     */
     public static void saveAllDataToFiles() {
         infoTitle("💾", "GRAVAR DADOS NOS FICHEIROS");
 
@@ -1158,6 +1229,10 @@ public class Main {
     }
 
     // Método para ler todos os dados dos ficheiros
+    /**
+     * Loads all data from files into memory (drivers, vehicles, clients,
+     * reservations, travels).
+     */
     public static void loadAllDataFromFiles() {
         infoTitle("📂", "LER DADOS DOS FICHEIROS");
 

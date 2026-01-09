@@ -1,6 +1,11 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a Travel (Trip) in the system.
+ * A travel involves a driver, a client, a vehicle, and details about the
+ * journey.
+ */
 public class Travel implements HasNif, HasLicensePlate {
     private Driver driver;
     private Client client;
@@ -12,21 +17,49 @@ public class Travel implements HasNif, HasLicensePlate {
     private double kms;
     private double tripCost;
 
+    /**
+     * Retrieves the client's NIF.
+     *
+     * @return The NIF of the client associated with the travel.
+     */
     @Override
     public int getClientNif() {
         return this.client.getClientNif();
     }
 
+    /**
+     * Retrieves the driver's NIF.
+     *
+     * @return The NIF of the driver associated with the travel.
+     */
     @Override
     public int getDriverNif() {
         return this.driver.getDriverNif();
     }
 
+    /**
+     * Retrieves the vehicle's license plate.
+     *
+     * @return The license plate of the vehicle used in the travel.
+     */
     @Override
     public String getLicensePlate() {
         return this.vehicle.getLicensePlate();
     }
 
+    /**
+     * Constructs a new Travel instance.
+     *
+     * @param driver             The driver of the travel.
+     * @param client             The client of the travel.
+     * @param vehicle            The vehicle used.
+     * @param startDateTime      The start date and time.
+     * @param endDateTime        The end date and time.
+     * @param originAddress      The origin address.
+     * @param destinationAddress The destination address.
+     * @param kms                The distance in kilometers.
+     * @param tripCost           The cost of the trip.
+     */
     Travel(Driver driver, Client client, Vehicle vehicle, LocalDateTime startDateTime, LocalDateTime endDateTime,
             String originAddress, String destinationAddress, double kms, double tripCost) {
         this.driver = driver;
@@ -112,6 +145,9 @@ public class Travel implements HasNif, HasLicensePlate {
         this.tripCost = tripCost;
     }
 
+    /**
+     * Displays the Travel management menu options to the console.
+     */
     public static void Menu() {
         System.out.println("📅 --- Gestão de Viagens --- 📋");
         System.out.println("1.  ➕ Registar Viagem");
@@ -123,6 +159,11 @@ public class Travel implements HasNif, HasLicensePlate {
         System.out.print("👉 Selecione uma opção: ");
     }
 
+    /**
+     * Provides prompts for collecting travel information.
+     *
+     * @return An array of prompt strings.
+     */
     public static String[] prompts() {
         return new String[] {
                 "🪪 Digite o número de identificação fiscal do condutor: ",
@@ -137,6 +178,11 @@ public class Travel implements HasNif, HasLicensePlate {
         };
     }
 
+    /**
+     * Provides labels for displaying travel information.
+     *
+     * @return An array of label strings.
+     */
     public static String[] infoPrompts() {
         return new String[] {
                 "👤 Nome do cliente: ",
@@ -156,6 +202,11 @@ public class Travel implements HasNif, HasLicensePlate {
         };
     }
 
+    /**
+     * Returns a string representation of the Travel.
+     *
+     * @return A formatted string containing travel details.
+     */
     @Override
     public String toString() {
         return "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +

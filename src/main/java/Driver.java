@@ -1,4 +1,9 @@
-public class Driver implements HasNif{
+/**
+ * Represents a Driver in the system.
+ * A driver has personal and professional information such as license number,
+ * NIC, and NIF.
+ */
+public class Driver implements HasNif {
     private String name; // Nome
     private int NIC; // Número de Identificação Civil
     private String driverLicenseNumber;
@@ -7,14 +12,37 @@ public class Driver implements HasNif{
     private String tlm;
     private String address;
 
+    /**
+     * Retrieves the client's NIF.
+     *
+     * @return Always returns 0 as this is a Driver.
+     */
     @Override
     public int getClientNif() {
         return 0;
     }
+
+    /**
+     * Retrieves the driver's NIF.
+     *
+     * @return The NIF of the driver.
+     */
     @Override
     public int getDriverNif() {
         return this.nif;
     }
+
+    /**
+     * Constructs a new Driver with the specified details.
+     *
+     * @param name                The name of the driver.
+     * @param NIC                 The Civil Identification Number (NIC).
+     * @param driverLicenseNumber The driver's license number.
+     * @param niss                The Social Security Identification Number (NISS).
+     * @param nif                 The Tax Identification Number (NIF).
+     * @param tlm                 The phone number.
+     * @param address             The address.
+     */
     Driver(String name, int NIC, String driverLicenseNumber, long niss, int nif, String tlm, String address) {
         this.name = name;
         this.NIC = NIC;
@@ -77,7 +105,10 @@ public class Driver implements HasNif{
         this.address = address;
     }
 
-    public static void Menu(){
+    /**
+     * Displays the Driver management menu options to the console.
+     */
+    public static void Menu() {
         System.out.println("👤 --- Gestão de Condutores --- 📋");
         System.out.println("1.  ➕ Registar Condutor");
         System.out.println("2.  📋 Listar Condutores");
@@ -87,7 +118,13 @@ public class Driver implements HasNif{
         System.out.println("0.  ↩️ Voltar");
         System.out.print("👉 Selecione uma opção: ");
     }
-    public static String[] prompts(){
+
+    /**
+     * Provides prompts for collecting driver information.
+     *
+     * @return An array of prompt strings.
+     */
+    public static String[] prompts() {
         return new String[] {
                 "📝 Digite o nome do condutor: ",
                 "🪪 Digite o número do cartão de cidadão do condutor: ",
@@ -99,7 +136,12 @@ public class Driver implements HasNif{
         };
     }
 
-    public static String [] infoPrompts(){
+    /**
+     * Provides labels for displaying driver information.
+     *
+     * @return An array of label strings.
+     */
+    public static String[] infoPrompts() {
         return new String[] {
                 "📝 Nome do condutor: ",
                 "🪪 Número do cartão de cidadão do condutor: ",
@@ -110,6 +152,12 @@ public class Driver implements HasNif{
                 "🏠 Morada do condutor: "
         };
     }
+
+    /**
+     * Returns a string representation of the Driver.
+     *
+     * @return A formatted string containing driver details.
+     */
     @Override
     public String toString() {
         return "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +

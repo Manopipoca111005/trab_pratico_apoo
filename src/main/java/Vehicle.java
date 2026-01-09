@@ -1,9 +1,23 @@
-public class Vehicle{
+/**
+ * Represents a Vehicle in the system.
+ * A vehicle is defined by its license plate, brand, model, and year of
+ * production.
+ */
+public class Vehicle {
     private String licensePlate;
-    private String  brand;
+    private String brand;
     private String model;
     private int productionYear;
-    Vehicle(String licensePlate, String brand, String model,int productionYear) {
+
+    /**
+     * Constructs a new Vehicle with the specified details.
+     *
+     * @param licensePlate   The license plate of the vehicle.
+     * @param brand          The brand of the vehicle.
+     * @param model          The model of the vehicle.
+     * @param productionYear The year the vehicle was produced.
+     */
+    Vehicle(String licensePlate, String brand, String model, int productionYear) {
         this.licensePlate = licensePlate;
         this.brand = brand;
         this.model = model;
@@ -42,7 +56,10 @@ public class Vehicle{
         this.productionYear = productionYear;
     }
 
-    public static void Menu(){
+    /**
+     * Displays the Vehicle management menu options to the console.
+     */
+    public static void Menu() {
         System.out.println("🚗 --- Gestão de Viaturas --- 📋");
         System.out.println("1.  ➕ Registar Viatura");
         System.out.println("2.  📋 Listar Viaturas");
@@ -52,7 +69,13 @@ public class Vehicle{
         System.out.println("0.  ↩️ Voltar");
         System.out.print("👉 Selecione uma opção: ");
     }
-    public static String[] prompts(){
+
+    /**
+     * Provides prompts for collecting vehicle information.
+     *
+     * @return An array of prompt strings.
+     */
+    public static String[] prompts() {
         return new String[] {
                 "🔢 Digite a matrícula da viatura: ",
                 "🚗 Digite a marca da viatura?: ",
@@ -61,7 +84,12 @@ public class Vehicle{
         };
     }
 
-    public static String[] infoPrompts(){
+    /**
+     * Provides labels for displaying vehicle information.
+     *
+     * @return An array of label strings.
+     */
+    public static String[] infoPrompts() {
         return new String[] {
                 "🔢 Matricula da viatura: ",
                 "🚗 Marca da Viatura: ",
@@ -70,8 +98,13 @@ public class Vehicle{
         };
     }
 
+    /**
+     * Returns a string representation of the Vehicle.
+     *
+     * @return A formatted string containing vehicle details.
+     */
     @Override
-    public String toString(){
+    public String toString() {
         return "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
                 "🚗 " + this.licensePlate.toUpperCase() + "\n" +
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +

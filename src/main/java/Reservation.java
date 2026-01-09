@@ -1,5 +1,9 @@
 import java.time.LocalDateTime;
 
+/**
+ * Represents a Reservation made by a client.
+ * Includes details such as start time, origin, destination, and distance.
+ */
 public class Reservation implements HasNif {
     private Client client;
     private LocalDateTime startDateTime;
@@ -7,16 +11,35 @@ public class Reservation implements HasNif {
     private String destinationAddress;
     private double kms;
 
+    /**
+     * Retrieves the NIF of the client who made the reservation.
+     *
+     * @return The client's NIF.
+     */
     @Override
     public int getClientNif() {
         return this.getClient().getClientNif();
     }
 
+    /**
+     * Retrieves the driver's NIF.
+     *
+     * @return Always returns 0 as this is a Reservation.
+     */
     @Override
     public int getDriverNif() {
         return 0;
     }
 
+    /**
+     * Constructs a new Reservation.
+     *
+     * @param client             The client making the reservation.
+     * @param startDateTime      The start date and time of the reservation.
+     * @param originAddress      The starting address.
+     * @param destinationAddress The destination address.
+     * @param kms                The distance in kilometers.
+     */
     Reservation(Client client, LocalDateTime startDateTime, String originAddress, String destinationAddress,
             double kms) {
         this.client = client;
@@ -66,6 +89,9 @@ public class Reservation implements HasNif {
         this.kms = kms;
     }
 
+    /**
+     * Displays the Reservation management menu options to the console.
+     */
     public static void Menu() {
         System.out.println("📅 --- Gestão de Reservas --- 📋");
         System.out.println("1.  ➕ Registar Reserva");
@@ -77,6 +103,11 @@ public class Reservation implements HasNif {
         System.out.print("👉 Selecione uma opção: ");
     }
 
+    /**
+     * Provides prompts for collecting reservation information.
+     *
+     * @return An array of prompt strings.
+     */
     public static String[] prompts() {
         return new String[] {
                 "🪪 Digite o número de identificação fiscal do cliente:",
@@ -87,6 +118,11 @@ public class Reservation implements HasNif {
         };
     }
 
+    /**
+     * Provides labels for displaying reservation information.
+     *
+     * @return An array of label strings.
+     */
     public static String[] infoPrompts() {
         return new String[] {
                 "👤 Nome do cliente: ",
@@ -98,6 +134,11 @@ public class Reservation implements HasNif {
         };
     }
 
+    /**
+     * Returns a string representation of the Reservation.
+     *
+     * @return A formatted string containing reservation details.
+     */
     @Override
     public String toString() {
         return "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
