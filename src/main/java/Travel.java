@@ -23,7 +23,7 @@ public class Travel implements HasNif, HasLicensePlate {
      * @return The NIF of the client associated with the travel.
      */
     @Override
-    public int getClientNif() {
+    public long getClientNif() {
         return this.client.getClientNif();
     }
 
@@ -33,7 +33,7 @@ public class Travel implements HasNif, HasLicensePlate {
      * @return The NIF of the driver associated with the travel.
      */
     @Override
-    public int getDriverNif() {
+    public long getDriverNif() {
         return this.driver.getDriverNif();
     }
 
@@ -169,8 +169,8 @@ public class Travel implements HasNif, HasLicensePlate {
                 "🪪 Digite o número de identificação fiscal do condutor: ",
                 "🪪 Digite o número de identificação fiscal do cliente: ",
                 "🪪 Digite a matricula da viatura: ",
-                "📅 Digite a Hora/Data inicial: ",
-                "📅 Digite a Hora/Data final: ",
+                "📅 Digite a Hora/Data inicial (dd/MM/yyyy HH:mm): ",
+                "📅 Digite a Hora/Data final (dd/MM/yyyy HH:mm): ",
                 "🏠 Digite a morada do origem: ",
                 "📍 Digite o endereço de destino: ",
                 "🛣️ Digite os quilómetros(kms) percorridos: ",

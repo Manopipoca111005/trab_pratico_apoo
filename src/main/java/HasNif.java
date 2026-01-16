@@ -9,12 +9,12 @@ public interface HasNif {
      *
      * @return The client's NIF as an int.
      */
-    int getClientNif();
+    long getClientNif();
 
     /**
      * Retrieves the NIF (Tax Identification Number) of the driver.
      *
-     * @return The driver's NIF as an int.
+     * @return The driver's NIF as a long.
      */
-    int getDriverNif();
+    long getDriverNif();
 }

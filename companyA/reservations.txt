@@ -1,0 +1,6 @@
+92652052;25/10/2023 08:30;Rua Principal 123, Porto;Hospital de São João;5.2
+888888888;02/11/2023 19:45;Avenida Lisboa 45, Lisboa;Parque das Nações;12.5
+777777777;15/12/2023 14:00;Praceta das Flores 10, Coimbra;Universidade de Coimbra;2.1
+941401705;05/01/2024 09:15;Rua da Boavista 200, Porto;Estádio do Dragão;4.8
+555555555;20/02/2024 16:30;Rua do Sol 8, Faro;Aeroporto de Faro;6.5
+92652052;10/03/2024 21:00;Hospital de São João;Rua Principal 123, Porto;5.2

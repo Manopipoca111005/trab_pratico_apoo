@@ -8,6 +8,7 @@ public class Vehicle {
     private String brand;
     private String model;
     private int productionYear;
+    private String color;
 
     /**
      * Constructs a new Vehicle with the specified details.
@@ -16,12 +17,14 @@ public class Vehicle {
      * @param brand          The brand of the vehicle.
      * @param model          The model of the vehicle.
      * @param productionYear The year the vehicle was produced.
+     * @param color          The color of the vehicle.
      */
-    Vehicle(String licensePlate, String brand, String model, int productionYear) {
+    Vehicle(String licensePlate, String brand, String model, int productionYear, String color) {
         this.licensePlate = licensePlate;
         this.brand = brand;
         this.model = model;
         this.productionYear = productionYear;
+        this.color = color;
     }
 
     public String getLicensePlate() {
@@ -56,6 +59,14 @@ public class Vehicle {
         this.productionYear = productionYear;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     /**
      * Displays the Vehicle management menu options to the console.
      */
@@ -81,6 +92,7 @@ public class Vehicle {
                 "🚗 Digite a marca da viatura?: ",
                 "🔍 Digite o modelo da viatura: ",
                 "📅 Digite o ano de fabrico da viatura: ",
+                "🎨 Digite a cor da viatura: "
         };
     }
 
@@ -95,6 +107,7 @@ public class Vehicle {
                 "🚗 Marca da Viatura: ",
                 "🔍 Modelo da Viatura: ",
                 "📅 Ano de fabrico da viatura: ",
+                "🎨 Cor da viatura: "
         };
     }
 
@@ -112,6 +125,7 @@ public class Vehicle {
                 infoPrompts()[1] + this.getBrand() + "\n" +
                 infoPrompts()[2] + this.getModel() + "\n" +
                 infoPrompts()[3] + this.getProductionYear() + "\n" +
+                infoPrompts()[4] + this.getColor() + "\n" +
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
     };
 }

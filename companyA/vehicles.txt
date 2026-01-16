@@ -1,0 +1,5 @@
+AA-00-BB;Toyota;Prius;2020;Branco
+XX-99-YY;Tesla;Model 3;2022;Preto
+11-AA-22;Renault;Zoe;2021;Azul
+BB-33-CC;Nissan;Leaf;2019;Prata
+44-DD-55;Hyundai;Kona;2023;Vermelho

@@ -17,7 +17,7 @@ public class Reservation implements HasNif {
      * @return The client's NIF.
      */
     @Override
-    public int getClientNif() {
+    public long getClientNif() {
         return this.getClient().getClientNif();
     }
 
@@ -27,7 +27,7 @@ public class Reservation implements HasNif {
      * @return Always returns 0 as this is a Reservation.
      */
     @Override
-    public int getDriverNif() {
+    public long getDriverNif() {
         return 0;
     }
 

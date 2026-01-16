@@ -5,10 +5,10 @@
  */
 public class Driver implements HasNif {
     private String name; // Nome
-    private int NIC; // Número de Identificação Civil
+    private long NIC; // Número de Identificação Civil
     private String driverLicenseNumber;
     private long niss;
-    private int nif;
+    private long nif;
     private String tlm;
     private String address;
 
@@ -18,7 +18,7 @@ public class Driver implements HasNif {
      * @return Always returns 0 as this is a Driver.
      */
     @Override
-    public int getClientNif() {
+    public long getClientNif() {
         return 0;
     }
 
@@ -28,7 +28,7 @@ public class Driver implements HasNif {
      * @return The NIF of the driver.
      */
     @Override
-    public int getDriverNif() {
+    public long getDriverNif() {
         return this.nif;
     }
 
@@ -43,7 +43,7 @@ public class Driver implements HasNif {
      * @param tlm                 The phone number.
      * @param address             The address.
      */
-    Driver(String name, int NIC, String driverLicenseNumber, long niss, int nif, String tlm, String address) {
+    Driver(String name, long NIC, String driverLicenseNumber, long niss, long nif, String tlm, String address) {
         this.name = name;
         this.NIC = NIC;
         this.driverLicenseNumber = driverLicenseNumber;
@@ -53,11 +53,11 @@ public class Driver implements HasNif {
         this.address = address;
     }
 
-    public int getNIC() {
+    public long getNIC() {
         return NIC;
     }
 
-    public void setNIC(int NIC) {
+    public void setNIC(long NIC) {
         this.NIC = NIC;
     }
 
@@ -85,7 +85,7 @@ public class Driver implements HasNif {
         this.niss = niss;
     }
 
-    public void setNif(int nif) {
+    public void setNif(long nif) {
         this.nif = nif;
     }
 

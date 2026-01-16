@@ -5,7 +5,7 @@
  */
 public class Client implements HasNif {
     private String name;
-    private int nif;
+    private long nif;
     private String tlm;
     private String address;
 
@@ -15,7 +15,7 @@ public class Client implements HasNif {
      * @return The NIF of the client.
      */
     @Override
-    public int getClientNif() {
+    public long getClientNif() {
         return this.nif;
     }
 
@@ -25,7 +25,7 @@ public class Client implements HasNif {
      * @return Always returns 0 as this is a Client.
      */
     @Override
-    public int getDriverNif() {
+    public long getDriverNif() {
         return 0;
     }
 
@@ -37,7 +37,7 @@ public class Client implements HasNif {
      * @param tlm     The phone number of the client.
      * @param address The address of the client.
      */
-    Client(String name, int nif, String tlm, String address) {
+    Client(String name, long nif, String tlm, String address) {
         this.name = name;
         this.nif = nif;
         this.tlm = tlm;
@@ -52,7 +52,7 @@ public class Client implements HasNif {
         this.name = name;
     }
 
-    public void setNif(int nif) {
+    public void setNif(long nif) {
         this.nif = nif;
     }
 
